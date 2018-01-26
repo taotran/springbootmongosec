@@ -1,7 +1,13 @@
 package com.pycogroup.taotran.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -12,7 +18,29 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class ApplicationConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private BasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated();
+        http.httpBasic().authenticationEntryPoint(basicAuthenticationEntryPoint);
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("admin").password("admin").roles("ADMIN")
+                .and()
+                .withUser("user").password("user").roles("USER")
+        ;
+    }
 
     @Bean
     public Docket productApi() {

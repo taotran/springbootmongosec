@@ -5,12 +5,15 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.hateoas.ResourceSupport;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
 @Document(collection = "User")
-public class User implements IDocument {
+public class User extends ResourceSupport implements IDocument {
 
     @Id
     private String id;
@@ -24,12 +27,17 @@ public class User implements IDocument {
     @Length(min = 8, max = 100)
     private String password;
 
+    @Field
+    @Min(10)
+    @Max(100)
+    private int age;
+
     @Override
-    public String getId() {
+    public String getDocId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setDocId(String id) {
         this.id = id;
     }
 
@@ -47,5 +55,13 @@ public class User implements IDocument {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

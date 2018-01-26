@@ -3,7 +3,11 @@ package com.pycogroup.taotran.rest;
 import com.pycogroup.taotran.entity.User;
 import com.pycogroup.taotran.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +26,16 @@ public class UserResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> findAll() {
         return userService.findAll();
     }
 
     @GetMapping("/{userId}")
-    public User find(@PathVariable String userId) {
-        return userService.findOne(userId);
+    public HttpEntity<User> find(@PathVariable String userId) {
+        User user = userService.findOne(userId);
+//        user.add(linkTo(methodOn(UserResource.class)));
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @PostMapping
