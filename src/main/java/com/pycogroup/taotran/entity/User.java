@@ -3,17 +3,19 @@ package com.pycogroup.taotran.entity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
-@Document(collection = "User")
-public class User extends ResourceSupport implements IDocument {
+@Document(collection = "user")
+//public class User extends ResourceSupport implements IDocument {
+public class User implements IDocument {
 
     @Id
     private String id;
@@ -32,12 +34,15 @@ public class User extends ResourceSupport implements IDocument {
     @Max(100)
     private int age;
 
-    @Override
-    public String getDocId() {
+    @DBRef
+    private List<Todo> todoList;
+
+
+    public String getId() {
         return id;
     }
 
-    public void setDocId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,5 +68,13 @@ public class User extends ResourceSupport implements IDocument {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<Todo> getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(List<Todo> todoList) {
+        this.todoList = todoList;
     }
 }

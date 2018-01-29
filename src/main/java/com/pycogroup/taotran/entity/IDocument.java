@@ -1,7 +1,9 @@
 package com.pycogroup.taotran.entity;
 
-public interface IDocument {
+import java.io.Serializable;
 
-    String getDocId();
+public interface IDocument extends Serializable {
+
+    String getId();
 
 }
