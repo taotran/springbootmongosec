@@ -3,10 +3,12 @@ package com.pycogroup.taotran.service;
 import com.pycogroup.taotran.entity.IDocument;
 import com.pycogroup.taotran.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class DocumentServiceBean<T extends IDocument> implements DocumentService<T> {
 
     @Autowired

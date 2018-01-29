@@ -12,4 +12,8 @@ public interface UserService extends DocumentService<User> {
 
     List<User> findSpecificAgeRange(int min, int max);
 
+    User findByUsername(String username);
+
+    User findByUsernameAndPassword(String username, String password);
+
 }

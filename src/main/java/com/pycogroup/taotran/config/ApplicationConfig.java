@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -24,6 +25,9 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
 
+    @Autowired
+    private UserDetailsService mongoDbUserDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -36,11 +40,13 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("ADMIN")
-                .and()
-                .withUser("user").password("user").roles("USER")
-        ;
+//        auth.inMemoryAuthentication()
+//                .withUser("admin").password("admin").roles("ADMIN")
+//                .and()
+//                .withUser("user").password("user").roles("USER")
+//        ;
+
+        auth.userDetailsService(mongoDbUserDetailsService);
     }
 
     @Bean

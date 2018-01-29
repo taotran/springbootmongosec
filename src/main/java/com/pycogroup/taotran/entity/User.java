@@ -3,19 +3,23 @@ package com.pycogroup.taotran.entity;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 
 
 @Document(collection = "user")
 //public class User extends ResourceSupport implements IDocument {
-public class User implements IDocument {
+public class User implements IDocument, UserDetails {
 
     @Id
     private String id;
@@ -23,7 +27,8 @@ public class User implements IDocument {
     @Field
     @NotNull
     @NotBlank
-    private String name;
+    @Indexed(unique = true)
+    private String username;
 
     @Field
     @Length(min = 8, max = 100)
@@ -37,6 +42,9 @@ public class User implements IDocument {
     @DBRef
     private List<Todo> todoList;
 
+    @Field
+    private List<GrantedAuthority> grantedAuthorities;
+
 
     public String getId() {
         return id;
@@ -46,16 +54,42 @@ public class User implements IDocument {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return grantedAuthorities;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGrantedAuthorities(List<GrantedAuthority> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
