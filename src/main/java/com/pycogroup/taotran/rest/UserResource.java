@@ -31,12 +31,18 @@ public class UserResource {
         return userService.findAll();
     }
 
+    @GetMapping(path = "/age-range")
+    public List<User> findByAgeRange(@RequestParam int min, @RequestParam int max) {
+        return userService.findSpecificAgeRange(min, max);
+    }
+
     @GetMapping("/{userId}")
     public HttpEntity<User> find(@PathVariable String userId) {
         User user = userService.findOne(userId);
 //        user.add(linkTo(methodOn(UserResource.class)));
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
