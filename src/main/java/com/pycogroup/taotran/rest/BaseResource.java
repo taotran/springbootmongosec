@@ -15,7 +15,7 @@ public class BaseResource<T extends IDocument> {
     protected DocumentService<T> documentService;
 
     @GetMapping
-    public List<T> getAll() {
+    public List<T> findAll() {
         return documentService.findAll();
     }
 

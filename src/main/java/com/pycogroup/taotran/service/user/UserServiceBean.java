@@ -29,6 +29,13 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
         this.userRepository = userRepository;
     }
 
+
+    @Override
+    public User save(User user) {
+        operations.save(user);
+        return user;
+    }
+
     @Override
     public List<User> findAll(int offset) {
         return new ArrayList<User>();

@@ -1,4 +1,4 @@
-package com.pycogroup.taotran.custom;
+package com.pycogroup.taotran.custom.cascade;
 
 
 import java.lang.annotation.ElementType;
@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Cascade {
+public @interface CascadeSave {
 }

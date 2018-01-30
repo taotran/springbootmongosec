@@ -1,5 +1,6 @@
 package com.pycogroup.taotran.entity;
 
+import com.pycogroup.taotran.custom.cascade.CascadeSave;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
@@ -40,6 +41,7 @@ public class User implements IDocument, UserDetails {
     private int age;
 
     @DBRef
+    @CascadeSave
     private List<Todo> todoList;
 
     @Field

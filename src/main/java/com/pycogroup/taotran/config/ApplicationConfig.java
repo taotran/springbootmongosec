@@ -1,6 +1,8 @@
 package com.pycogroup.taotran.config;
 
+import com.pycogroup.taotran.custom.cascade.CascadeSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +28,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     private BasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
 
     @Autowired
+    @Qualifier("mongoDbUserDetailsService")
     private UserDetailsService mongoDbUserDetailsService;
 
     @Override
@@ -43,6 +46,9 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
         auth.userDetailsService(mongoDbUserDetailsService);
     }
+
+
+    /* Swagger configuration */
 
     @Bean
     public Docket productApi() {
@@ -70,5 +76,12 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
                 "https://www.apache.org/licenses/LICENSE-2.0"
 
         );
+    }
+
+    /* Custom beans */
+
+    @Bean
+    public CascadeSaveMongoEventListener cascadeSaveMongoEventListener() {
+        return new CascadeSaveMongoEventListener();
     }
 }
