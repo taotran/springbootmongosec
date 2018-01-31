@@ -53,7 +53,7 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
 
     @Bean
     public JdbcMutableAclService aclService() {
-        JdbcMutableAclService aclService = new JdbcMutableAclService(
+        final JdbcMutableAclService aclService = new JdbcMutableAclService(
                 dataSource(), lookupStrategy(), aclCache());
         aclService.setClassIdentityQuery("SELECT @@IDENTITY");
         aclService.setSidIdentityQuery("SELECT @@IDENTITY");
@@ -63,10 +63,8 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
     @Bean
     public MethodSecurityExpressionHandler
     defaultMethodSecurityExpressionHandler() {
-        DefaultMethodSecurityExpressionHandler expressionHandler
-                = new DefaultMethodSecurityExpressionHandler();
-        AclPermissionEvaluator permissionEvaluator
-                = new AclPermissionEvaluator(aclService());
+        final DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        final AclPermissionEvaluator permissionEvaluator = new AclPermissionEvaluator(aclService());
         expressionHandler.setPermissionEvaluator(permissionEvaluator);
         return expressionHandler;
     }

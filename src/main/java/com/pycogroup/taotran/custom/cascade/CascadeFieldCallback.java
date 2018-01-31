@@ -18,19 +18,21 @@ public class CascadeFieldCallback implements ReflectionUtils.FieldCallback {
     }
 
     @Override
-    public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+    public void doWith(Field field) throws IllegalAccessException {
 
         ReflectionUtils.makeAccessible(field);
 
         if (field.isAnnotationPresent(DBRef.class) && field.isAnnotationPresent(CascadeSave.class)) {
 
             @SuppressWarnings("unchecked") final Object fieldValue = field.get(source);
-
             if (fieldValue != null) {
                 if (fieldValue instanceof List<?>) {
-                    
-                    for (Object object : (List<?>) fieldValue)
+
+                    for (Object object : (List<?>) fieldValue) {
                         operations.save(object);
+                    }
+                } else {
+                    operations.save(fieldValue);
                 }
 
             }
