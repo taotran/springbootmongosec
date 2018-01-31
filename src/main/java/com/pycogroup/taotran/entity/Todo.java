@@ -9,10 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "todo")
-public class Todo implements IDocument {
-
-    @Id
-    private String id;
+public class Todo extends AbstractDocument {
 
     @Field
     @NotNull
@@ -31,14 +28,6 @@ public class Todo implements IDocument {
         this.title = title;
         this.description = description;
         this.user = user;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setTitle(String title) {

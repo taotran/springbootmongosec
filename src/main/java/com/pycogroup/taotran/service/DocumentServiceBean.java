@@ -1,18 +1,24 @@
 package com.pycogroup.taotran.service;
 
+import com.pycogroup.taotran.entity.AbstractDocument;
 import com.pycogroup.taotran.entity.IDocument;
 import com.pycogroup.taotran.repository.DocumentRepository;
+import com.pycogroup.taotran.service.acl.AclUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class DocumentServiceBean<T extends IDocument> implements DocumentService<T> {
+public class DocumentServiceBean<T extends AbstractDocument> implements DocumentService<T> {
 
     @Autowired
     private DocumentRepository<T> documentRepository;
+
+    @Autowired
+    private AclUtilService<T> aclUtilService;
 
     @Override
     public List<T> findAll() {
@@ -26,8 +32,13 @@ public class DocumentServiceBean<T extends IDocument> implements DocumentService
 
     @Override
     @Transactional
-    public T save(T t) {
-        return documentRepository.save(t);
+    public T save(T t, Authentication authentication) {
+
+        final T persistedObject = documentRepository.save(t);
+
+        aclUtilService.setOwnerRightForPersistenceObject(persistedObject, authentication);
+
+        return t;
     }
 
     @Override

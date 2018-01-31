@@ -5,10 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userrole")
-public class UserRole implements IDocument {
-
-    @Id
-    private String id;
+public class UserRole extends AbstractDocument {
 
     @DBRef
     private User user;
@@ -16,11 +13,6 @@ public class UserRole implements IDocument {
     @DBRef
     private Role role;
 
-
-    @Override
-    public String getId() {
-        return id;
-    }
 
     public User getUser() {
         return user;

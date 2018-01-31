@@ -20,10 +20,7 @@ import java.util.List;
 
 @Document(collection = "user")
 //public class User extends ResourceSupport implements IDocument {
-public class User implements IDocument, UserDetails {
-
-    @Id
-    private String id;
+public class User extends  AbstractDocument implements UserDetails {
 
     @Field
     @NotNull
@@ -47,14 +44,6 @@ public class User implements IDocument, UserDetails {
     @Field
     private List<GrantedAuthority> grantedAuthorities;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

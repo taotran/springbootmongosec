@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -31,7 +32,7 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
 
 
     @Override
-    public User save(User user) {
+    public User save(User user, Authentication authentication) {
         operations.save(user);
         return user;
     }

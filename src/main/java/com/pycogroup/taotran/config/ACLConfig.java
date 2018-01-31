@@ -8,6 +8,8 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.acls.AclPermissionEvaluator;
@@ -51,8 +53,11 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
 
     @Bean
     public JdbcMutableAclService aclService() {
-        return new JdbcMutableAclService(
+        JdbcMutableAclService aclService = new JdbcMutableAclService(
                 dataSource(), lookupStrategy(), aclCache());
+        aclService.setClassIdentityQuery("SELECT @@IDENTITY");
+        aclService.setSidIdentityQuery("SELECT @@IDENTITY");
+        return aclService;
     }
 
     @Bean
@@ -113,5 +118,10 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
                 aclAuthorizationStrategy(),
                 new ConsoleAuditLogger()
         );
+    }
+
+    @Bean
+    public JdbcOperations jdbcOperations() {
+        return new JdbcTemplate(dataSource());
     }
 }
