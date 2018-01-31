@@ -1,7 +1,6 @@
 package com.pycogroup.taotran.service;
 
 import com.pycogroup.taotran.entity.AbstractDocument;
-import com.pycogroup.taotran.entity.IDocument;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;

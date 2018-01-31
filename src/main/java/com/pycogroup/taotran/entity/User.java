@@ -3,7 +3,6 @@ package com.pycogroup.taotran.entity;
 import com.pycogroup.taotran.custom.cascade.CascadeSave;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,8 +18,7 @@ import java.util.List;
 
 
 @Document(collection = "user")
-//public class User extends ResourceSupport implements IDocument {
-public class User extends  AbstractDocument implements UserDetails {
+public class User extends AbstractDocument implements UserDetails {
 
     @Field
     @NotNull

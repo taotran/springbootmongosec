@@ -12,7 +12,7 @@ public class Role extends AbstractDocument {
     @Field
     @NotNull
     @Indexed(unique = true)
-    private String role;
+    private String role; //NO SONAR
 
     public String getRole() {
         return role;
