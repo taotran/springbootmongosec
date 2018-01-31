@@ -1,16 +1,8 @@
 package com.pycogroup.taotran.config;
 
 import com.pycogroup.taotran.custom.cascade.CascadeSaveMongoEventListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -21,32 +13,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ApplicationConfig extends WebSecurityConfigurerAdapter {
+public class ApplicationConfig {
 
-    @Autowired
-    private BasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
-
-    @Autowired
-    @Qualifier("mongoDbUserDetailsService")
-    private UserDetailsService mongoDbUserDetailsService;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/api/v1/**").permitAll() //TODO: remember to remove this one
-                .anyRequest().authenticated();
-        http.httpBasic().authenticationEntryPoint(basicAuthenticationEntryPoint);
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.userDetailsService(mongoDbUserDetailsService);
-    }
-
+//    TODO: check [[java.sql.SQLException: No suitable driver found]] when using h2 Driver
+//    @Bean(name = "h2servletRegistration")
+//    public ServletRegistrationBean h2servletRegistration(){
+//        ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
+//        registrationBean.addUrlMappings("/console/*");
+//        return registrationBean;
+//
+//    }
 
     /* Swagger configuration */
 
@@ -84,4 +60,6 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     public CascadeSaveMongoEventListener cascadeSaveMongoEventListener() {
         return new CascadeSaveMongoEventListener();
     }
+
+
 }
