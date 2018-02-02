@@ -1,5 +1,6 @@
 package com.pycogroup.taotran.config;
 
+import com.pycogroup.taotran.constant.RoleConst;
 import com.pycogroup.taotran.service.auth.MyBasicLookupStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -16,6 +17,7 @@ import org.springframework.security.acls.AclPermissionEvaluator;
 import org.springframework.security.acls.domain.*;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.jdbc.LookupStrategy;
+import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.PermissionGrantingStrategy;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -52,7 +54,7 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
     }
 
     @Bean
-    public JdbcMutableAclService aclService() {
+    public MutableAclService aclService() {
         final JdbcMutableAclService aclService = new JdbcMutableAclService(
                 dataSource(), lookupStrategy(), aclCache());
         aclService.setClassIdentityQuery("SELECT @@IDENTITY");
@@ -77,7 +79,7 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
     @Bean
     public AclAuthorizationStrategy aclAuthorizationStrategy() {
         return new AclAuthorizationStrategyImpl(
-                new SimpleGrantedAuthority("ROLE_ADMIN"));
+                new SimpleGrantedAuthority(RoleConst.ADMIN));
     }
 
     @Bean

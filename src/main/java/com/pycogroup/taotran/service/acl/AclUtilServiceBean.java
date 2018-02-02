@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.model.*;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,10 +16,10 @@ import org.springframework.util.Assert;
 public class AclUtilServiceBean<T extends AbstractDocument> implements AclUtilService<T> {
 
 
-    private final JdbcMutableAclService aclService;
+    private final MutableAclService aclService;
 
     @Autowired
-    public AclUtilServiceBean(JdbcMutableAclService aclService) {
+    public AclUtilServiceBean(MutableAclService aclService) {
 
         Assert.notNull(aclService, "'aclService' must not be null!");
 
@@ -28,12 +28,13 @@ public class AclUtilServiceBean<T extends AbstractDocument> implements AclUtilSe
 
     @Override
     @Transactional
-    public void setOwnerRightForPersistenceObject(T t, Authentication authentication) {
+    public void setOwnerRightForPersistenceObject(T t) {
 
-        ObjectIdentity objectIdentity = new ObjectIdentityImpl(t.getClass().getName(), t.getId());
-        Sid sid = new PrincipalSid(authentication.getName());
+        final ObjectIdentity objectIdentity = new ObjectIdentityImpl(t.getClass().getName(), t.getId());
+        final UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Sid sid = new PrincipalSid(userDetails.getUsername());
 
-        Permission permission = BasePermission.ADMINISTRATION;
+        final Permission permission = BasePermission.ADMINISTRATION;
 
         MutableAcl acl = null;
         try {

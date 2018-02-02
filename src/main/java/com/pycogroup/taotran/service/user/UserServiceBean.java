@@ -1,13 +1,16 @@
 package com.pycogroup.taotran.service.user;
 
+import com.pycogroup.taotran.entity.QUser;
 import com.pycogroup.taotran.entity.User;
 import com.pycogroup.taotran.repository.UserRepository;
 import com.pycogroup.taotran.service.DocumentServiceBean;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -32,14 +35,14 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
 
 
     @Override
-    public User save(User user, Authentication authentication) {
+    public User save(User user) {
         operations.save(user);
         return user;
     }
 
     @Override
     public List<User> findAll(int offset) {
-        return new ArrayList<User>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -59,5 +62,16 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
     @Override
     public User findByUsernameAndPassword(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> filterByUsername(String username, Sort sort, Pageable pageable) {
+
+        final QUser qUser = new QUser("user");
+
+        final Predicate predicate = qUser.username.contains(username);
+
+        return userRepository.findAll(predicate, pageable).getContent();
     }
 }

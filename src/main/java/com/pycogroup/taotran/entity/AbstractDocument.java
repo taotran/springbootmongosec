@@ -7,6 +7,10 @@ public class AbstractDocument implements IDocument {
     @Id
     private String id;
 
+    protected AbstractDocument(){
+
+    }
+
     @Override
     public String getId() {
         return id;

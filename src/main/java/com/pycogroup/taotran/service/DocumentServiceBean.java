@@ -4,7 +4,6 @@ import com.pycogroup.taotran.entity.AbstractDocument;
 import com.pycogroup.taotran.repository.DocumentRepository;
 import com.pycogroup.taotran.service.acl.AclUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +30,11 @@ public class DocumentServiceBean<T extends AbstractDocument> implements Document
 
     @Override
     @Transactional
-    public T save(T t, Authentication authentication) {
+    public T save(T t) {
 
         final T persistedObject = documentRepository.save(t);
 
-        aclUtilService.setOwnerRightForPersistenceObject(persistedObject, authentication);
+        aclUtilService.setOwnerRightForPersistenceObject(persistedObject);
 
         return t;
     }

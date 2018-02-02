@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
-public class GlobalControllerExceptionHandler {
+public class GlobalResourceExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse unknownException(Exception e, WebRequest request) {
-        return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 500, "Server error");
+        return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 500, e.getMessage());
     }
 }

@@ -3,6 +3,10 @@ package com.pycogroup.taotran.config;
 import com.pycogroup.taotran.custom.cascade.CascadeSaveMongoEventListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -11,18 +15,24 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.List;
+
 @Configuration
 @EnableSwagger2
-public class ApplicationConfig {
+public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
-//    TODO: check [[java.sql.SQLException: No suitable driver found]] when using h2 Driver
-//    @Bean(name = "h2servletRegistration")
-//    public ServletRegistrationBean h2servletRegistration(){
-//        ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
-//        registrationBean.addUrlMappings("/console/*");
-//        return registrationBean;
-//
-//    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+        resolver.setOneIndexedParameters(true);
+        resolver.setFallbackPageable(new PageRequest(0, 2));
+        argumentResolvers.add(resolver);
+
+        super.addArgumentResolvers(argumentResolvers);
+    }
+
+
 
     /* Swagger configuration */
 
@@ -40,7 +50,7 @@ public class ApplicationConfig {
     private ApiInfo metaData() {
         return new ApiInfo(
                 "SpringBoot MongoDB",
-                "SpringBoot MongoDB Demostration",
+                "SpringBoot MongoDB Demonstration",
                 "1.0",
                 "Terms of Service",
                 new Contact(

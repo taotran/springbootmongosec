@@ -1,7 +1,6 @@
 package com.pycogroup.taotran.service;
 
 import com.pycogroup.taotran.entity.AbstractDocument;
-import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ public interface DocumentService<T extends AbstractDocument> {
 
     T findOne(String id);
 
-    T save(T t, Authentication authentication);
+    T save(T t);
 
     void delete(T t);
 
