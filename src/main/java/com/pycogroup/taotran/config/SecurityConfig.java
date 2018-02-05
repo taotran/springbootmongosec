@@ -23,9 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/api/v1/**").permitAll() //TODO: remember to remove this one
-                .anyRequest().authenticated();
+//                .antMatchers("/").permitAll()
+//                .regexMatchers("/user/^(.*?(\b?projection=\b)[^$]*)$").hasRole("SUPER_ADMIN")
+//                .antMatchers("/user/**{\\d+}?projection=*").access("hasRole(SUPER_ADMIN)")
+//                .antMatchers("/api/v1/**").authenticated()
+                .anyRequest().authenticated()
+
+        ;
         http.httpBasic().authenticationEntryPoint(basicAuthenticationEntryPoint);
     }
 

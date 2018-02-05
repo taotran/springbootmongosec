@@ -1,5 +1,6 @@
 package com.pycogroup.taotran.rest;
 
+import com.pycogroup.taotran.constant.MappingPath;
 import com.pycogroup.taotran.entity.User;
 import com.pycogroup.taotran.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(MappingPath.USER)
 public class UserResource extends BaseResource<User> {
 
     private final UserService userService;

@@ -20,4 +20,8 @@ public interface UserService extends DocumentService<User> {
 
     List<User> filterByUsername(String username, Sort sort, Pageable pageable);
 
+    boolean checkAccess(User checkingUser);
+
+    boolean checkAccess();
+
 }

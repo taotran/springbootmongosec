@@ -1,5 +1,6 @@
 package com.pycogroup.taotran.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pycogroup.taotran.custom.cascade.CascadeSave;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -9,8 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import sun.jvm.hotspot.runtime.ConstructionException;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ import java.util.List;
 
 
 @Document(collection = "user")
+//@JsonFilter("userFilter")
 public class User extends AbstractDocument implements UserDetails {
 
     @Field
@@ -30,6 +32,8 @@ public class User extends AbstractDocument implements UserDetails {
 
     @Field
     @Length(min = 8, max = 100)
+    @Valid
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Field
@@ -39,7 +43,7 @@ public class User extends AbstractDocument implements UserDetails {
 
     @DBRef
     @CascadeSave
-    private List<Todo> todoList;
+    private List<Task> taskList;
 
     @Field
     private List<? extends GrantedAuthority> grantedAuthorities;
@@ -58,7 +62,7 @@ public class User extends AbstractDocument implements UserDetails {
 
 
     public User() { // NOSONAR
-        throw new ConstructionException();
+
     }
 
     public User(Builder builder) {
@@ -66,7 +70,7 @@ public class User extends AbstractDocument implements UserDetails {
         this.password = builder.password;
         this.grantedAuthorities = builder.grantedAuthorities;
         this.age = builder.age;
-        this.todoList = builder.todoList;
+        this.taskList = builder.taskList;
         this.accountNonExpired = builder.accountNonExpired;
         this.accountNonLocked = builder.accountNonLocked;
         this.credentialsNonExpired = builder.credentialsNonExpired;
@@ -127,8 +131,8 @@ public class User extends AbstractDocument implements UserDetails {
         return age;
     }
 
-    public List<Todo> getTodoList() {
-        return todoList;
+    public List<Task> getTaskList() {
+        return taskList;
     }
 
     public static final class Builder {
@@ -139,7 +143,7 @@ public class User extends AbstractDocument implements UserDetails {
 
         private int age;
 
-        private List<Todo> todoList;
+        private List<Task> taskList;
 
         private List<? extends GrantedAuthority> grantedAuthorities;
 
@@ -170,8 +174,8 @@ public class User extends AbstractDocument implements UserDetails {
             return this;
         }
 
-        public Builder todoList(List<Todo> value) {
-            this.todoList = value;
+        public Builder todoList(List<Task> value) {
+            this.taskList = value;
             return this;
         }
 

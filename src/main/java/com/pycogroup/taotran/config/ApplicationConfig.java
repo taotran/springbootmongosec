@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,6 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.List;
 
 @Configuration
+@EnableWebMvc
 @EnableSwagger2
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
@@ -70,6 +72,11 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     public CascadeSaveMongoEventListener cascadeSaveMongoEventListener() {
         return new CascadeSaveMongoEventListener();
     }
+
+//    @Bean
+//    public JSONIncludedForConstraintValidator jsonIncludedForConstraintValidator() {
+//        return new JSONIncludedForConstraintValidator();
+//    }
 
 
 }

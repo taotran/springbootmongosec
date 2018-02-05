@@ -30,10 +30,12 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ACLConfig extends GlobalMethodSecurityConfiguration {
 
-    private static final String DATASOURCE_DRIVER = "datasource.driver";
-    private static final String DATASOURCE_URL = "datasource.url";
-    private static final String DATASOURCE_USER = "datasource.user";
-    private static final String DATASOURCE_PASSWORD = "datasource.password";
+    //@formatter:off
+    private static final String DATASOURCE_DRIVER   = "datasource.driver"   ;
+    private static final String DATASOURCE_URL      = "datasource.url"      ;
+    private static final String DATASOURCE_USER     = "datasource.user"     ;
+    private static final String DATASOURCE_PASSWORD = "datasource.password" ;
+    //@formatter:on
 
     @Autowired
     private MethodSecurityExpressionHandler
@@ -45,12 +47,15 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
     @Bean
     //TODO: check the reason why SpringBoot cannot create dataSource bean from configuration file (application.yml)
     public DataSource dataSource() {
+        //@formatter:off
         return DataSourceBuilder.create()
-                .driverClassName(env.getProperty(DATASOURCE_DRIVER))
-                .username(env.getProperty(DATASOURCE_USER))
-                .password(env.getProperty(DATASOURCE_PASSWORD))
-                .url(env.getProperty(DATASOURCE_URL))
-                .build();
+                .driverClassName(env.getProperty(DATASOURCE_DRIVER  ))
+                .username       (env.getProperty(DATASOURCE_USER    ))
+                .password       (env.getProperty(DATASOURCE_PASSWORD))
+                .url            (env.getProperty(DATASOURCE_URL     ))
+                .build()
+                ;
+        //@formatter:on
     }
 
     @Bean

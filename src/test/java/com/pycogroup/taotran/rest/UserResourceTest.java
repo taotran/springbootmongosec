@@ -1,15 +1,14 @@
 package com.pycogroup.taotran.rest;
 
-import com.pycogroup.taotran.BaseAppTest;
+import com.pycogroup.taotran.constant.MappingPath;
 import com.pycogroup.taotran.entity.User;
+import com.pycogroup.taotran.service.DocumentService;
 import com.pycogroup.taotran.service.user.UserService;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,33 +21,34 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class UserResourceTest extends BaseAppTest {
+public class UserResourceTest extends BaseResourceTest<User> {
 
     private static final String BASE_USER_MAPPING_PATH = "/api/v1/users";
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private UserService userService;
 
-
-    @Test
-    @WithUserDetails(value = "admin")
-    public void givenUsers_whenFindUsers_thenReturnJsonArray() throws Exception {
-
-        final List<User> users = createUsers();
-
-        given(userService.findAll()).willReturn(new ArrayList<>(users)); // using new ArrayList to avoid java.lang.UnsupportedOperationException
-
-        mockMvc.perform(get(BASE_USER_MAPPING_PATH)
-                .contentType(MediaType.APPLICATION_JSON))
-
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].username", is(users.get(0).getUsername())));
-
+    public UserResourceTest() {
+        super(User.class);
     }
+
+
+//    @Test
+//    @WithUserDetails(value = "admin")
+//    public void givenUsers_whenFindUsers_thenReturnJsonArray() throws Exception {
+//
+//        final List<User> users = createUsers();
+//
+//        given(userService.findAll()).willReturn(new ArrayList<>(users)); // using new ArrayList to avoid java.lang.UnsupportedOperationException
+//
+//        mockMvc.perform(get(BASE_USER_MAPPING_PATH)
+//                .contentType(MediaType.APPLICATION_JSON))
+//
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(1)))
+//                .andExpect(jsonPath("$[0].username", is(users.get(0).getUsername())));
+//
+//    }
 
     @Test
     @WithUserDetails(value = "admin")
@@ -89,10 +89,23 @@ public class UserResourceTest extends BaseAppTest {
     }
 
     private List<User> createUsers() {
-        final User testUser = new User.Builder("testUser", "testP@ssw0rd")
+        return Arrays.asList(mockObject());
+    }
+
+    @Override
+    protected String getBaseMappingPath() {
+        return MappingPath.USER;
+    }
+
+    @Override
+    protected DocumentService<User> mockService() {
+        return userService;
+    }
+
+    @Override
+    protected User mockObject() {
+        return new User.Builder("testUser", "testP@ssw0rd")
                 .age(10)
                 .build();
-
-        return Arrays.asList(testUser);
     }
 }

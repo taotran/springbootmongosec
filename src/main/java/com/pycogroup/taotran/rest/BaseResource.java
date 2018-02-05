@@ -19,7 +19,8 @@ public class BaseResource<T extends AbstractDocument> {
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostFilter("hasRole('ADMIN') or hasPermission(filterObject, 'READ') or hasPermission(filterObject, admin)")
-    public List<T> findAll() {
+    public @Valid
+    List<T> findAll() {
         return documentService.findAll();
     }
 

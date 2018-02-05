@@ -11,13 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("userService")
 public class UserServiceBean extends DocumentServiceBean<User> implements UserService {
 
     private final MongoOperations operations;
@@ -73,5 +75,16 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
         final Predicate predicate = qUser.username.contains(username);
 
         return userRepository.findAll(predicate, pageable).getContent();
+    }
+
+    @Override
+    public boolean checkAccess(User checkingUser) {
+        final UserDetails userDetails = (UserDetails) SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getPrincipal();
+        return userDetails.getUsername().equalsIgnoreCase("admin") || userDetails.getUsername().equals(checkingUser.getUsername());
+    }
+
+    @Override
+    public boolean checkAccess() {
+        return true;
     }
 }

@@ -1,14 +1,16 @@
 package com.pycogroup.taotran.entity;
 
 
+import com.pycogroup.taotran.enumeration.TaskPriority;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
-@Document(collection = "todo")
-public class Todo extends AbstractDocument {
+@Document(collection = "task")
+public class Task extends AbstractDocument {
 
     @Field
     @NotNull
@@ -17,16 +19,27 @@ public class Todo extends AbstractDocument {
     @Field
     private String description;
 
+    @Field
+    private Date dueDate;
+
+    @Field
+    private TaskPriority priority;
+
     @DBRef
     private User user;
 
-    public Todo() {
+
+    public Task() { // NOSONAR
     }
 
-    public Todo(String title, String description, User user) {
+    public Task(String title, String description, User user) {
         this.title = title;
         this.description = description;
         this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
@@ -39,6 +52,23 @@ public class Todo extends AbstractDocument {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
     }
 
     public User getUser() {

@@ -33,7 +33,7 @@ public class MongoDbUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         final User user = userService.findByUsername(username);
 
         if (user == null) {
