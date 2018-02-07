@@ -62,7 +62,11 @@ public class User extends AbstractDocument implements UserDetails {
 
 
     public User() { // NOSONAR
-
+        super();
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
     }
 
     public User(Builder builder) {
@@ -79,14 +83,10 @@ public class User extends AbstractDocument implements UserDetails {
     }
 
     public User(String username, String password, List<? extends GrantedAuthority> grantedAuthorities) {
-        super();
+        this();
         this.username = username;
         this.password = password;
         this.grantedAuthorities = grantedAuthorities;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = true;
     }
 
     @Override
