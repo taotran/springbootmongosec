@@ -110,9 +110,11 @@ public class ACLConfig extends GlobalMethodSecurityConfiguration {
         return ehCacheFactoryBean;
     }
 
-    @Bean
+    @Bean("aclCacheManager")
     public EhCacheManagerFactoryBean aclCacheManager() {
-        return new EhCacheManagerFactoryBean();
+        final EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+        cacheManagerFactoryBean.setShared(true);
+        return cacheManagerFactoryBean;
     }
 
     @Bean

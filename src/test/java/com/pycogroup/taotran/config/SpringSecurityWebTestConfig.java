@@ -29,4 +29,9 @@ public class SpringSecurityWebTestConfig {
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return authorities;
     }
+
+//    @Bean("mockMvc")
+//    public MockMvc assuredMockMvc() {
+//        return RestAssuredMockMvc.mockMvc;
+//    }
 }

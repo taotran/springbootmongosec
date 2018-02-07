@@ -1,11 +1,14 @@
 package com.pycogroup.taotran;
 
 import com.pycogroup.taotran.config.SpringSecurityWebTestConfig;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -14,11 +17,20 @@ import org.springframework.test.web.servlet.MockMvc;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = SpringSecurityWebTestConfig.class
 )
+@AutoConfigureRestDocs(outputDir = "/target/snippets")
 @AutoConfigureMockMvc
 @SuppressWarnings("all")
 @Ignore
+@WithUserDetails(value = "admin")
 public class BaseAppTest {
-
+//
     @Autowired
+//    @Qualifier("mockMvc")
     protected MockMvc mockMvc;
+
+    @Before
+    public void setUp() {
+//        mockMvc = RestAssuredMockMvc.mockMvc;
+//        RestAssuredMockMvc.standaloneSetup(MockMvcBuilders.standaloneSetup(new UserResource()));
+    }
 }

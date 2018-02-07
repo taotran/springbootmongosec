@@ -3,8 +3,10 @@ package com.pycogroup.taotran.rest;
 import com.pycogroup.taotran.constant.MappingPath;
 import com.pycogroup.taotran.entity.Role;
 import com.pycogroup.taotran.service.auth.RoleService;
+import org.junit.Ignore;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+@Ignore
 public class RoleResourceTest extends BaseResourceTest<Role> {
 
     public RoleResourceTest() {

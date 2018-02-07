@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pycogroup.taotran.BaseAppTest;
 import com.pycogroup.taotran.entity.AbstractDocument;
 import com.pycogroup.taotran.service.DocumentService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -48,6 +49,7 @@ public abstract class BaseResourceTest<T extends AbstractDocument> extends BaseA
         ;
     }
 
+    @Ignore
     @Test
     @WithUserDetails(value = "admin")
     public void testFindOne() throws Exception {
