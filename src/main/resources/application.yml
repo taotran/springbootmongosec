@@ -37,9 +37,10 @@ jpa:
 #   Kafka Settings
 ###
 kafka:
-  bootstrap-servers: localhost:2222, localhost:3333
+#  bootstrap-servers: localhost:2222, localhost:3333
+  bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
   topic:
-    avro: springmongosec
+    avro: springmongosecdemo
 
 ###
 #   Logging configuration
