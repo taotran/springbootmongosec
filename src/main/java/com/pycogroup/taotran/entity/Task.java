@@ -20,7 +20,7 @@ public class Task extends AbstractDocument {
     private String description;
 
     @Field
-    private Date dueDate;
+    private Date dueDate = new Date(); //temporary set the current date if NULL
 
     @Field
     private TaskPriority priority;

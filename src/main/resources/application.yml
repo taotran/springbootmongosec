@@ -16,11 +16,11 @@ spring:
 #    password:
 #    driver-class-name: com.mysql.jdbc.Driver
 
-  jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+jpa:
+  properties:
+    hibernate:
+      show_sql: true
+      format_sql: true
 ###
 #   H2 Settings
 ###
@@ -31,3 +31,19 @@ spring:
 #    settings:
 #      trace: false
 #      web-allow-others: false
+
+
+###
+#   Kafka Settings
+###
+kafka:
+  bootstrap-servers: localhost:2222, localhost:3333
+  topic:
+    avro: springmongosec
+
+###
+#   Logging configuration
+###
+logging:
+  level:
+    root: debug
