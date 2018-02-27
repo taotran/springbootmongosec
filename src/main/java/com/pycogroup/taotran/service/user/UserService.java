@@ -12,7 +12,7 @@ public interface UserService extends DocumentService<User> {
 
     List<User> findAll(int offset);
 
-    List<User> findSpecificAgeRange(int min, int max);
+    List<User> findBySpecificAgeRange(int min, int max);
 
     User findByUsername(String username);
 

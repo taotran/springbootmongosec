@@ -74,7 +74,7 @@ public class UserResourceTest extends BaseResourceTest<User> {
 
         final List<User> users = createUsers();
 
-        given(userService.findSpecificAgeRange(1, 11)).willReturn(new ArrayList<>(users));
+        given(userService.findBySpecificAgeRange(1, 11)).willReturn(new ArrayList<>(users));
 
         mockMvc.perform(get(BASE_USER_MAPPING_PATH + "/age-range")
                 .contentType(MediaType.APPLICATION_JSON)

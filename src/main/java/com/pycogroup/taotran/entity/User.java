@@ -1,6 +1,5 @@
 package com.pycogroup.taotran.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pycogroup.taotran.custom.cascade.CascadeSave;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -21,7 +20,6 @@ import java.util.List;
 
 
 @Document(collection = "user")
-//@JsonFilter("userFilter")
 public class User extends AbstractDocument implements UserDetails {
 
     @Field
@@ -33,7 +31,6 @@ public class User extends AbstractDocument implements UserDetails {
     @Field
     @Length(min = 8, max = 100)
     @Valid
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Field

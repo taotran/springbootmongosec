@@ -48,7 +48,7 @@ public class UserServiceBean extends DocumentServiceBean<User> implements UserSe
     }
 
     @Override
-    public List<User> findSpecificAgeRange(int min, int max) {
+    public List<User> findBySpecificAgeRange(int min, int max) {
         final Query query = new Query();
 
         query.addCriteria(Criteria.where("age").gte(min).lte(max));

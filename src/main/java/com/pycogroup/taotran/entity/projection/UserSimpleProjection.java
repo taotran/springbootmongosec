@@ -10,4 +10,5 @@ public interface UserSimpleProjection {
 
     String getUsername();
 
+    int getAge();
 }

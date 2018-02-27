@@ -30,7 +30,7 @@ public class UserResource extends BaseResource<User> {
     @GetMapping(path = "/age-range")
     @PreAuthorize("hasRole('ADMIN')")
     public List<User> findByAgeRange(@RequestParam int min, @RequestParam int max) {
-        return userService.findSpecificAgeRange(min, max);
+        return userService.findBySpecificAgeRange(min, max);
     }
 
     @GetMapping(path = "/username")

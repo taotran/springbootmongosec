@@ -12,7 +12,7 @@ public class CascadeFieldCallback implements ReflectionUtils.FieldCallback {
     private Object source;
     private MongoOperations operations;
 
-    public CascadeFieldCallback(Object source, MongoOperations operations) {
+    CascadeFieldCallback(Object source, MongoOperations operations) {
         this.source = source;
         this.operations = operations;
     }
