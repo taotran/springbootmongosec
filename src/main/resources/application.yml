@@ -38,7 +38,7 @@ jpa:
 ###
 kafka:
 #  bootstrap-servers: localhost:2222, localhost:3333
-  bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+  bootstrap-servers: 172.16.50.70:9092, 172.16.50.70:32769, 172.16.50.70:32768
   topic:
     avro: springmongosecdemo
 
