@@ -3,6 +3,7 @@ package com.pycogroup.taotran.rest;
 
 import com.pycogroup.taotran.constant.MappingPath;
 import com.pycogroup.taotran.entity.Task;
+import com.pycogroup.taotran.service.DocumentService;
 import com.pycogroup.taotran.service.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,15 @@ public class TaskResource extends BaseResource<Task> {
 
     private final TaskService taskService;
 
+    public TaskResource(DocumentService<Task> documentService) {
+        super(documentService);
+        sender = null;
+        taskService = null;
+    }
+
     @Autowired
     public TaskResource(KafkaSender sender, TaskService taskService) {
+        super(taskService);
         Assert.notNull(sender, "'kafkaSender' must not be null!");
         Assert.notNull(taskService, "'taskService' must not be null!");
 

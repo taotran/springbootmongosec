@@ -7,9 +7,6 @@ Contract.make {
 
     request {
         url "/api/v1/users"
-        headers {
-            header 'Authorization': 'Basic YWRtaW46YWRtaW4xMjM='
-        }
         method GET()
     }
 
