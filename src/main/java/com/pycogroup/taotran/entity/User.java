@@ -180,7 +180,7 @@ public class User extends AbstractDocument implements UserDetails {
             return this;
         }
 
-        public Builder todoList(List<Task> value) {
+        public Builder taskList(List<Task> value) {
             this.taskList = value;
             return this;
         }

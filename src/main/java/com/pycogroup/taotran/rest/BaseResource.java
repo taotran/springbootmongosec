@@ -13,13 +13,8 @@ import java.util.List;
 
 public class BaseResource<T extends AbstractDocument> {
 
-
-    private final DocumentService<T> documentService;
-
     @Autowired
-    public BaseResource(DocumentService<T> documentService) {
-        this.documentService = documentService;
-    }
+    protected DocumentService<T> documentService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
