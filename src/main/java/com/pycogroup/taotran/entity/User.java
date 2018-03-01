@@ -15,6 +15,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,6 +85,14 @@ public class User extends AbstractDocument implements UserDetails {
         this.username = username;
         this.password = password;
         this.grantedAuthorities = grantedAuthorities;
+    }
+
+    public User(String username, String password, GrantedAuthority... authorities) {
+        this(username, password, Arrays.asList(authorities));
+    }
+
+    public User(String username, String password) {
+        this(username, password, new ArrayList<>());
     }
 
     @Override
@@ -171,7 +180,7 @@ public class User extends AbstractDocument implements UserDetails {
             return this;
         }
 
-        public Builder todoList(List<Task> value) {
+        public Builder taskList(List<Task> value) {
             this.taskList = value;
             return this;
         }

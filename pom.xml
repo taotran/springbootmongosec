@@ -15,12 +15,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <avro.version>1.8.2</avro.version>
+        <spring-cloud.version>Edgware.SR2</spring-cloud.version>
+        <spring-cloud-contract.version>1.2.1.RELEASE</spring-cloud-contract.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>1.5.10.RELEASE</version>
+        <relativePath />
     </parent>
 
     <dependencies>
@@ -42,6 +45,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -118,6 +122,13 @@
             <artifactId>jackson-module-afterburner</artifactId>
         </dependency>
 
+        <!-- SCC -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- MongoDB -->
         <dependency>
@@ -190,6 +201,18 @@
 
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
 
@@ -214,13 +237,27 @@
             </plugin>
 
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>${spring-cloud-contract.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <baseClassForTests>hello.TestBase</baseClassForTests>
                 </configuration>
             </plugin>
 

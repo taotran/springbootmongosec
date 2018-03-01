@@ -23,7 +23,7 @@ This is the TODOLIST core application which was built on top of Springframework,
 * Applying best practices:
 - REST API best practices
 - HATEOAS 
-- Single responsiple principle, Open-closed principle, Dependencies inversion principle
+- Single responsible principle, Open-closed principle, Dependencies inversion principle
 - Singleton pattern, Builder pattern,...
 
 

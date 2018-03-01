@@ -45,6 +45,6 @@ kafka:
 ###
 #   Logging configuration
 ###
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug
