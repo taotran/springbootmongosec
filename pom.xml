@@ -257,7 +257,7 @@
                 <version>${spring-cloud-contract.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <baseClassForTests>hello.TestBase</baseClassForTests>
+                    <baseClassForTests>contract.verifier.ContractVerifierTestBase</baseClassForTests>
                 </configuration>
             </plugin>
 

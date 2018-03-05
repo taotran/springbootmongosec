@@ -1,4 +1,4 @@
-package contracts.hello
+package contracts.user
 
 import org.springframework.cloud.contract.spec.Contract
 

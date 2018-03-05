@@ -1,4 +1,4 @@
-package hello;
+package contract.verifier;
 
 import com.pycogroup.taotran.App;
 import com.pycogroup.taotran.entity.User;
@@ -22,7 +22,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
 @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
-public class TestBase {
+public class ContractVerifierTestBase {
 
     @Mock
     private UserService userService;
