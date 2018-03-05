@@ -40,7 +40,7 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
 
     @Test
     @WithUserDetails(value = "admin")
-    public void giveTask_whenSaveTask_thenReturnJsonObject() throws Exception {
+    public void givenTask_whenSaveTask_thenReturnJsonObject() throws Exception {
 
         given(taskService.save(any(Task.class))).willReturn(mockObject());
 
@@ -82,11 +82,11 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
         task.setId("ATestTaskId");
         task.setTitle("A test task");
         task.setDescription("Desc");
-        task.setDueDate(new Date());
+        task.setDueDate(new Date(1520245063704L));
         task.setPriority(TaskPriority.CRITICAL);
 
-        task.setCreatedDate(new Date());
-        task.setUpdatedDate(new Date());
+        task.setCreatedDate(new Date(1520245063704L));
+        task.setUpdatedDate(new Date(1520245063704L));
 
         return task;
     }
