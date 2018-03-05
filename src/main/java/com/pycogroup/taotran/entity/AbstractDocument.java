@@ -4,6 +4,7 @@ import org.mongodb.morphia.annotations.PrePersist;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.persistence.PreUpdate;
 import java.util.Date;
 
 public class AbstractDocument implements IDocument {
@@ -27,6 +28,7 @@ public class AbstractDocument implements IDocument {
     }
 
 
+    @PreUpdate
     public void preUpdate() {
         this.updatedDate = new Date();
     }
@@ -46,5 +48,13 @@ public class AbstractDocument implements IDocument {
 
     public Date getUpdatedDate() {
         return updatedDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

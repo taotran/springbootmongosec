@@ -23,8 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserResourceTest extends BaseResourceTest<User> {
 
-    private static final String BASE_USER_MAPPING_PATH = "/api/v1/users";
-
     @MockBean
     private UserService userService;
 
@@ -58,7 +56,7 @@ public class UserResourceTest extends BaseResourceTest<User> {
 
         given(userService.filterByUsername("te", null, new PageRequest(0, 2))).willReturn(new ArrayList<>(users));
 
-        mockMvc.perform(get(BASE_USER_MAPPING_PATH + "/username")
+        mockMvc.perform(get(getBaseMappingPath() + "/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("username", "te")
         )
@@ -76,7 +74,7 @@ public class UserResourceTest extends BaseResourceTest<User> {
 
         given(userService.findBySpecificAgeRange(1, 11)).willReturn(new ArrayList<>(users));
 
-        mockMvc.perform(get(BASE_USER_MAPPING_PATH + "/age-range")
+        mockMvc.perform(get(getBaseMappingPath() + "/age-range")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("min", "1")
                 .param("max", "11")

@@ -1,5 +1,6 @@
 package com.pycogroup.taotran.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pycogroup.taotran.entity.User;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -18,5 +19,10 @@ public class SpringSecurityWebTestConfig {
     public UserDetailsService userDetailsService() {
         final User user = new User("admin", "admin123", new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new InMemoryUserDetailsManager(Arrays.asList(user));
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
