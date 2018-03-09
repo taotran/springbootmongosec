@@ -1,6 +1,7 @@
 package com.pycogroup.taotran.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pycogroup.taotran.BaseMQResourceTest;
 import com.pycogroup.taotran.constant.MappingPath;
 import com.pycogroup.taotran.entity.Task;
 import com.pycogroup.taotran.enumeration.TaskPriority;
@@ -17,10 +18,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.springframework.kafka.test.assertj.KafkaConditions.key;
+import static org.springframework.kafka.test.hamcrest.KafkaMatchers.hasValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +43,7 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
 
     @Test
     @WithUserDetails(value = "admin")
+//    @Ignore // TODO: temporary disabled
     public void givenTask_whenSaveTask_thenReturnJsonObject() throws Exception {
 
         given(taskService.save(any(Task.class))).willReturn(mockObject());
@@ -58,7 +62,7 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
         assertNotNull(received);
 
         // Hamcrest Matchers to check the value
-//        assertThat(received, hasValue(deserializedReceivedObject()));
+        assertThat(received, hasValue(deserializedReceivedObject()));
         // AssertJ Condition to check the key
         assertThat(received).has(key(null));
 

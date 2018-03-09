@@ -1,8 +1,12 @@
-package com.pycogroup.taotran.rest;
+package com.pycogroup.taotran;
 
 import com.pycogroup.taotran.entity.AbstractDocument;
+import com.pycogroup.taotran.parse.deserializer.TaskAvroDeserializer;
+import com.pycogroup.taotran.rest.BaseResourceTest;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -26,7 +30,7 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
 
     private KafkaMessageListenerContainer<String, S> container;
 
-    BlockingQueue<ConsumerRecord<String, S>> records;
+    protected BlockingQueue<ConsumerRecord<String, S>> records;
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, senderTopic());
@@ -40,6 +44,9 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
         // set up the Kafka consumer properties
         final Map<String, Object> consumerProperties =
                 KafkaTestUtils.consumerProps("sender", "false", embeddedKafka);
+
+        consumerProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TaskAvroDeserializer.class);
 
         // create a Kafka consumer factory
         final DefaultKafkaConsumerFactory<String, S> consumerFactory =

@@ -39,10 +39,20 @@ public class ContractVerifierTestBase {
         Mockito.when(userService.findAll()).thenReturn(mockUsers());
     }
 
+//    private List<User> mockUsers() {
+//        return Arrays.asList(
+//                new User.Builder("testUser1", "abcdef").build(),
+//                new User.Builder("testUser2", "abcdefg").build()
+//        );
+//    }
+
     private List<User> mockUsers() {
-        return Arrays.asList(
-                new User.Builder("testUser1", "abcdef").build(),
-                new User.Builder("testUser2", "abcdefg").build()
-        );
+        final User user1 = new User.Builder("testUser1", "abcdef").age(8).build();
+        user1.setId("1");
+
+        final User user2 = new User.Builder("testUser2", "abcdefg").age(9).build();
+        user2.setId("2");
+
+        return Arrays.asList(user1, user2);
     }
 }

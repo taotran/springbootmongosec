@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 public class KafkaSender {
 
@@ -20,6 +23,18 @@ public class KafkaSender {
 
     public void send(Task task) {
         LOGGER.info("sending task='{}' ", task.toString());
-        taskKafkaTemplate.send(avroTopic, task);
+        ListenableFuture<SendResult<String, Task>> listenableFuture = taskKafkaTemplate.send(avroTopic, task);
+
+        listenableFuture.addCallback(new ListenableFutureCallback<SendResult<String, Task>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                LOGGER.info("fail to send data");
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, Task> result) {
+                LOGGER.info("send '{}' successfully", result.getProducerRecord().value());
+            }
+        });
     }
 }
