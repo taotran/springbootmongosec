@@ -1,8 +1,8 @@
 package com.pycogroup.taotran.config.kafka;
 
-import com.pycogroup.taotran.parse.serializer.AvroSerializer;
+import com.pycogroup.taotran.entity.Task;
+import com.pycogroup.taotran.parse.deserializer.TaskJsonDeserializer;
 import com.pycogroup.taotran.rest.KafkaSender;
-import com.pycogroup.taotran.springbootmongosec.avroentity.Task;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ public class KafkaProducerConfig {
 
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServerAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TaskJsonDeserializer.class);
 
         return new DefaultKafkaProducerFactory<>(configProps);
     }

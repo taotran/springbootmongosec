@@ -1,9 +1,8 @@
 package com.pycogroup.taotran;
 
 import com.pycogroup.taotran.entity.AbstractDocument;
-import com.pycogroup.taotran.parse.deserializer.TaskAvroDeserializer;
+import com.pycogroup.taotran.parse.deserializer.TaskJsonDeserializer;
 import com.pycogroup.taotran.rest.BaseResourceTest;
-import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -24,13 +23,13 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends SpecificRecordBase> extends BaseResourceTest<T> {
+public abstract class BaseMQResourceTest<T extends AbstractDocument> extends BaseResourceTest<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseMQResourceTest.class);
 
-    private KafkaMessageListenerContainer<String, S> container;
+    private KafkaMessageListenerContainer<String, T> container;
 
-    protected BlockingQueue<ConsumerRecord<String, S>> records;
+    protected BlockingQueue<ConsumerRecord<String, T>> records;
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, senderTopic());
@@ -46,10 +45,11 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
                 KafkaTestUtils.consumerProps("sender", "false", embeddedKafka);
 
         consumerProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        consumerProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TaskAvroDeserializer.class);
+        consumerProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TaskJsonDeserializer.class);
+        consumerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, "json");
 
         // create a Kafka consumer factory
-        final DefaultKafkaConsumerFactory<String, S> consumerFactory =
+        final DefaultKafkaConsumerFactory<String, T> consumerFactory =
                 new DefaultKafkaConsumerFactory<>(consumerProperties);
 
         // set the topic that needs to be consumed
@@ -62,9 +62,9 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
         records = new LinkedBlockingQueue<>();
 
         // setup a Kafka message listener
-        container.setupMessageListener(new MessageListener<String, S>() {
+        container.setupMessageListener(new MessageListener<String, T>() {
             @Override
-            public void onMessage(ConsumerRecord<String, S> record) {
+            public void onMessage(ConsumerRecord<String, T> record) {
                 LOGGER.debug("test-listener received message='{}'", record.toString());
                 records.add(record);
             }

@@ -18,17 +18,16 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.springframework.kafka.test.assertj.KafkaConditions.key;
-import static org.springframework.kafka.test.hamcrest.KafkaMatchers.hasValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.taotran.springbootmongosec.avroentity.Task> {
+public class TaskResourceTest extends BaseMQResourceTest<Task> {
 
     @MockBean
     private TaskService taskService;
@@ -56,13 +55,14 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
         ;
 
         // check that the message was received
-        final ConsumerRecord<String, com.pycogroup.taotran.springbootmongosec.avroentity.Task> received = records.poll(10, TimeUnit.SECONDS);
+        final ConsumerRecord<String, Task> received = records.poll(10, TimeUnit.SECONDS);
 
         // verify received message not null
         assertNotNull(received);
 
         // Hamcrest Matchers to check the value
-        assertThat(received, hasValue(deserializedReceivedObject()));
+//        assertThat(received.value(), hasValue(deserializedReceivedObject()));
+        assertEquals(received.value(), deserializedReceivedObject());
         // AssertJ Condition to check the key
         assertThat(received).has(key(null));
 
@@ -95,17 +95,9 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
         return task;
     }
 
-    private com.pycogroup.taotran.springbootmongosec.avroentity.Task deserializedReceivedObject() {
+    private Task deserializedReceivedObject() {
         final Task sendObject = mockObject();
 
-        return com.pycogroup.taotran.springbootmongosec.avroentity.Task.newBuilder()
-                .setId(sendObject.getId())
-                .setTitle(sendObject.getTitle())
-                .setDescription(sendObject.getDescription())
-                .setDueDate(sendObject.getDueDate().getTime())
-                .setPriority(sendObject.getPriority().name())
-                .setCreatedDate(sendObject.getCreatedDate().getTime())
-                .setUpdatedDate(sendObject.getUpdatedDate().getTime())
-                .build();
+        return sendObject;
     }
 }

@@ -1,6 +1,6 @@
 package com.pycogroup.taotran.rest;
 
-import com.pycogroup.taotran.springbootmongosec.avroentity.Task;
+import com.pycogroup.taotran.entity.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,15 @@ public class KafkaSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaSender.class);
 
 
-    @Value("${kafka.topic.avro}")
+    @Value("${kafka.topic.json}")
     private String avroTopic;
 
     @Autowired
     private KafkaTemplate<String, Task> taskKafkaTemplate;
 
     public void send(Task task) {
-        LOGGER.info("sending task='{}' ", task.toString());
-        ListenableFuture<SendResult<String, Task>> listenableFuture = taskKafkaTemplate.send(avroTopic, task);
+        LOGGER.info("sending task='{}' ", task);
+        final ListenableFuture<SendResult<String, Task>> listenableFuture = taskKafkaTemplate.send(avroTopic, task);
 
         listenableFuture.addCallback(new ListenableFutureCallback<SendResult<String, Task>>() {
             @Override

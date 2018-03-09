@@ -41,7 +41,7 @@ kafka:
 #  bootstrap-servers: 172.16.50.70:32770, 172.16.50.70:32769, 172.16.50.70:32768
 #  bootstrap-servers: 172.16.50.70:32768
   topic:
-    avro: springmongosecdemo
+    json: springmongosecdemo
 
 ###
 #   Logging configuration

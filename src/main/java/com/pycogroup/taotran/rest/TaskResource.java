@@ -32,17 +32,17 @@ public class TaskResource extends BaseResource<Task> {
     public void save(@RequestBody Task task) {
         final Task t = taskService.save(task);
 
-        final com.pycogroup.taotran.springbootmongosec.avroentity.Task serializedTask =
-                com.pycogroup.taotran.springbootmongosec.avroentity.Task.newBuilder()
-                        .setId(t.getId())
-                        .setTitle(t.getTitle())
-                        .setDescription(t.getDescription())
-                        .setDueDate(t.getDueDate().getTime())
-                        .setCreatedDate(t.getCreatedDate().getTime())
-                        .setUpdatedDate(t.getUpdatedDate().getTime())
-                        .setPriority(t.getPriority().name().toUpperCase())
-                        .build();
-        sender.send(serializedTask);
+//        final com.pycogroup.taotran.springbootmongosec.avroentity.Task serializedTask =
+//                com.pycogroup.taotran.springbootmongosec.avroentity.Task.newBuilder()
+//                        .setId(t.getId())
+//                        .setTitle(t.getTitle())
+//                        .setDescription(t.getDescription())
+//                        .setDueDate(t.getDueDate().getTime())
+//                        .setCreatedDate(t.getCreatedDate().getTime())
+//                        .setUpdatedDate(t.getUpdatedDate().getTime())
+//                        .setPriority(t.getPriority().name().toUpperCase())
+//                        .build();
+        sender.send(t);
 
 
     }

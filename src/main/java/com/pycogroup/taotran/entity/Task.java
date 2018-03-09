@@ -78,4 +78,16 @@ public class Task extends AbstractDocument {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Task{");
+        sb.append("title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", dueDate=").append(dueDate);
+        sb.append(", priority=").append(priority);
+        sb.append(", user=").append(user);
+        sb.append('}');
+        return sb.toString();
+    }
 }
