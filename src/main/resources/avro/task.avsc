@@ -5,7 +5,7 @@
         {"name":"id", "type":"string"},
         {"name":"title", "type":"string"},
         {"name":"description", "type":"string"},
-        {"name":"dueDate", "type":"long"},ok
+        {"name":"dueDate", "type":"long"},
         {"name":"priority", "type":"string"},
         {"name":"createdDate", "type":"long"},
         {"name":"updatedDate", "type":"long"}

@@ -63,6 +63,7 @@ public class TaskResourceTest extends BaseMQResourceTest<Task, com.pycogroup.tao
 
         // Hamcrest Matchers to check the value
         assertThat(received, hasValue(deserializedReceivedObject()));
+
         // AssertJ Condition to check the key
         assertThat(received).has(key(null));
 
