@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
@@ -19,11 +21,13 @@ import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@TestPropertySource(locations = "classpath:app.properties")
 public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends SpecificRecordBase> extends BaseResourceTest<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseMQResourceTest.class);
@@ -31,6 +35,12 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
     private KafkaMessageListenerContainer<String, S> container;
 
     protected BlockingQueue<ConsumerRecord<String, S>> records;
+
+//    @Value(value = "${bootstrap-servers}")
+//    private String bootstrapServers;
+
+    @Autowired
+    Environment environment;
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, senderTopic());
@@ -47,6 +57,7 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
 
         consumerProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TaskAvroDeserializer.class);
+        consumerProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, environment.getProperty("bootstrap-servers"));
 
         // create a Kafka consumer factory
         final DefaultKafkaConsumerFactory<String, S> consumerFactory =
@@ -84,6 +95,6 @@ public abstract class BaseMQResourceTest<T extends AbstractDocument, S extends S
     }
 
     protected static String senderTopic() {
-        return "springmongosecdemo";
+        return "tasktopic";
     }
 }

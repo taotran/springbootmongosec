@@ -11,18 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(MappingPath.TASK)
-public class TaskResource extends BaseResource<Task> {
-
-    private final KafkaSender sender;
+public class TaskResource extends BaseKafkaResource<Task, com.pycogroup.taotran.springbootmongosec.avroentity.Task> {
 
     private final TaskService taskService;
 
     @Autowired
-    public TaskResource(KafkaSender sender, TaskService taskService) {
-        Assert.notNull(sender, "'kafkaSender' must not be null!");
+    public TaskResource(TaskService taskService) {
+//        Assert.notNull(sender, "'kafkaSender' must not be null!");
         Assert.notNull(taskService, "'taskService' must not be null!");
 
-        this.sender = sender;
+
         this.taskService = taskService;
     }
 
